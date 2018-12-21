@@ -1,0 +1,33 @@
+Grading at 09/20/2018:03:48:25.420134
+For commit ID 37e303c990296dcf67f846f485d9f051c25f802e
+[32mSuccessfully compiled ['numToBits.c'].[0m
+********************test case 1********************
+Exit status of your code: 0
+[32mCorrect: your output matched the expected output.[0m
+[32mpassed test case 1[0m
+removing your main() and replacing it with out own to run more tests...
+[32mSuccessfully compiled ['numToBits.c'].[0m
+********************test case 2********************
+Exit status of your code: 0
+[32mValgrind was clean[0m
+[32mCorrect: your output matched the expected output.[0m
+[32mpassed test case 2[0m
+********************test case 3********************
+Exit status of your code: 0
+[32mValgrind was clean[0m
+[32mCorrect: your output matched the expected output.[0m
+[32mpassed test case 3[0m
+********************test case 4********************
+Exit status of your code: 0
+[31mtest case 4 Error: valgrind was not clean,here are error suggestions:[0m
+[31m1 Use of uninitialised value of size 8[0m
+[31m2 Conditional jump or move depends on uninitialised value[0m
+[32mCorrect: your output matched the expected output.[0m
+[32mpassed test case 4[0m
+********************test case 5********************
+Exit status of your code: 0
+[32mValgrind was clean[0m
+[32mCorrect: your output matched the expected output.[0m
+[32mpassed test case 5[0m
+[32msuccessfully passed all 5 test cases[0m
+Overall Grade: A
