@@ -1,0 +1,9 @@
+Grading at 09/14/2018:01:29:12.150354
+For commit ID ce9fced70ffa22b689f0957e2f7d9080b33352b1
+Attempting to compile test.c
+gcc -o test -pedantic -std=gnu99 -Wall -Werror test.c
+compiled
+Your file matched the expected output
+Your output matched what we expected
+
+Overall Grade: PASSED
