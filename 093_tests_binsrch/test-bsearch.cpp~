@@ -1,0 +1,115 @@
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <iostream>
+
+#include "function.h"
+
+using namespace std;
+
+class CountedIntFn : public Function<int, int>
+{
+ protected:
+  unsigned remaining;
+  Function<int, int> * f;
+  const char * mesg;
+
+ public:
+  CountedIntFn(unsigned n, Function<int, int> * fn, const char * m) :
+      remaining(n),
+      f(fn),
+      mesg(m) {}
+  virtual int invoke(int arg) {
+    if (remaining == 0) {
+      fprintf(stderr, "Too many function invocations in %s\n", mesg);
+      exit(EXIT_FAILURE);
+    }
+    remaining--;
+    return f->invoke(arg);
+  }
+};
+
+int binarySearchForZero(Function<int, int> * f, int low, int high);
+int binarySearch(Function<int, int> * f, int low, int high) {
+  int l = low;
+  int h = high;
+  int x, result;
+  if (l == h) {
+    result = f->invoke(l);
+    if (result > 0)
+      return h - 1;
+    else
+      return l;
+  }
+
+  while (true) {
+    x = (l + h) / 2;
+
+    result = f->invoke(x);
+    if (result > 0)
+      h = x;
+    else if (result < 0)
+      l = x;
+    else
+      return x;
+
+    if (h - l <= 1)
+      return l;
+
+    if (x == high || x == low)
+      return x;
+  }
+}
+
+class Func1 : public Function<int, int>
+{
+ public:
+  virtual int invoke(int arg) { return 10000000 * (sin(arg / 100000.0) - 0.5); }
+};
+
+class Func2 : public Function<int, int>
+{
+ public:
+  virtual int invoke(int arg) { return -10 + arg / 100000; }
+};
+
+void check(Function<int, int> * f, int low, int high, int expected_ans, const char * mesg) {
+  int max = 0;
+  if (low == high) {
+    max = 1;
+  }
+  else {
+    max = log2(high - low) + 1;
+  }
+  Function<int, int> * func = new CountedIntFn(max, f, mesg);
+  int ans = binarySearchForZero(func, low, high);
+  if (ans != expected_ans) {
+    fprintf(stderr, "fail to get right answers\n");
+    exit(EXIT_FAILURE);
+  }
+}
+
+int main() {
+  int low_array[] = {
+      0,
+      62345,
+      1000,
+      9999,
+      345,
+      100,
+  };
+  int high_array[] = {150000, 62345, 1500, 10000, 233444, 120000};
+
+  for (int i = 0; i < 6; i++) {
+    Function<int, int> * f1 = new Func1();
+    check(f1,
+          low_array[i],
+          high_array[i],
+          binarySearch(f1, low_array[i], high_array[i]),
+          "error when computing\n");
+  }
+  Function<int, int> * f2 = new Func2();
+  check(f2, 1000, 1500000, binarySearch(f2, 1000, 150000), "error when computing\n");
+  return 0;
+}
